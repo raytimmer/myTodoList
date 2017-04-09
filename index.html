@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>待办清单</title>
+	</head>
+	<body>
+		<section class="todoapp">
+			<header class="header">
+				<h1>待办事项</h1>
+				<input class="new-todo" placeholder="接下来要做什么呢?" autofocus
+         v-model.trim="newTodo" @keyup.enter="addTodo">
+			</header>
+			<section class="main">
+				<input id="toggle-all" class="toggle-all" type="checkbox" v-model="isAll">
+				<label for="toggle-all" v-show="todos.length">全选按钮</label>
+				<ul class="todo-list">
+          <li v-for="(todo,index) in filteredTodos" :class="{completed:todo.completed,editing:todo == editedTodo}">
+            <div class="view">
+              <input type="checkbox" class="toggle" v-model="todo.completed">
+              <label v-text="todo.content" @dblclick="editTodo(todo)"></label>
+              <button class="destroy" @click="removeTodo(index)"></button>
+            </div>
+            <input class="edit" v-model.trim="todo.content"
+                   v-focus="todo == editedTodo"
+                   @blur="doneEdit(todo)"
+                   @keyup.esc="cancleEdit(todo)"
+                   @keyup.enter="doneEdit(todo)"
+            >
+          </li>
+				</ul>
+			</section>
+			<!-- 当初始化的时候或无待办事项的时候底部隐藏 -->
+			<footer class="footer" v-show="todos.length">
+				<!-- This should be `0 items left` by default -->
+				<span class="todo-count"><strong>{{remain}}</strong> {{todos.length>1?'items':'item'}} left</span>
+				<!-- Remove this if you don't implement routing -->
+				<ul class="filters">
+					<li>
+						<a :class="{selected:hashName == 'all'}" href="#/">All</a>
+					</li>
+					<li>
+						<a :class="{selected:hashName == 'active'}" href="#/active">Active</a>
+					</li>
+					<li>
+						<a :class="{selected:hashName == 'completed'}" href="#/completed">Completed</a>
+					</li>
+				</ul>
+				<!-- Hidden if no completed items are left ↓ -->
+				<button class="clear-completed" @click="clear">Clear completed</button>
+			</footer>
+		</section>
+		<footer class="info">
+			<p>Double-click to edit a todo</p>
+			<!-- Remove the below line ↓ -->
+			<p>Template by <a href="http://sindresorhus.com">Sindre Sorhus</a></p>
+			<!-- Change this out with your name and url ↓ -->
+			<p>Created by <a href="http://todomvc.com">you</a></p>
+			<p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
+		</footer>
+
+	</body>
+</html>
