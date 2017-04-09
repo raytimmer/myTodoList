@@ -1,6 +1,6 @@
 # todomvc
 
-> A Vue.js project
+> 这是一个学习用的todoList
 
 ## Build Setup
 
