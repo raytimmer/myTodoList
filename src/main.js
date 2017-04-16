@@ -31,6 +31,15 @@ let app = new Vue({
     editCache: null,
     hashName: 'all'
   },
+  created: function () {
+    window.onbeforeunload = ()=>{
+      let dataString = JSON.stringify(this.todos);
+      window.sessionStorage.setItem('mytodos',dataString)
+    }
+    let oldDataString = window.sessionStorage.getItem('mytodos')
+    let oldData = JSON.parse(oldDataString)
+    this.todos = oldData || []
+  },
   methods: {
     addTodo() {
       if(!this.newTodo){
